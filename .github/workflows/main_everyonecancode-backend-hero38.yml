@@ -58,6 +58,12 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
+      - uses: azure/appservice-settings@v1
+        with:
+          app-name: 'everyonecancode-backend-hero38'
+          slot-name: 'Production'  # Optional and needed only if the settings have to be configured on the specific deployment slot
+          app-settings-json: '[{ "name": "CHAT_API_KEY", "value": "${{ secrets.VITE_CHAT_API_KEY }}", "slotSetting": false }, { "name": "CHAT_API_ENDPOINT", "value":  "${{ secrets.VITE_CHAT_API_ENDPOINT }}", "slotSetting": false }, { "name": "AZURE_OPENAI_MODEL_NAME", "value": "${{ secrets.VITE_AZURE_OPENAI_MODEL_NAME }}", "slotSetting": false }]'
+        id: settings
 
       
       - name: 'Deploy to Azure Web App'
